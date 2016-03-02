@@ -1,0 +1,12 @@
+.form-group {
+  margin-bottom: 1em;
+}
+
+#official-group {
+  display: none;
+}
+
+#officialsTable img {
+  border-radius: 4px;
+  height: 50%;
+}

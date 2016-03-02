@@ -6,8 +6,9 @@
 <meta charset="utf-8">
 <title>Hello...</title>
 </style>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 
 <!-- START HTML -->
@@ -81,73 +82,56 @@ function loadRedditList() {
   accordionPanel.setAttribute('id', "accordion");
   
   for (i = 0; i < obj.length; i++) {
+    var collapseHeader = "#collapse" + i;
+    var collapseID = "collapse" + i;
     //console.log(obj[i].data.url);
-    var uList = document.createElement('list-group');
-    uList.setAttribute('id', 'currentList');
-    
-    //var uPanel = document.createElement('div');
-    //uPanel.setAttribute('class', "panel-group");
-    //uPanel.setAttribute('id', "accordion");
     
     var redditPanelOuter = document.createElement('div');
-    redditPanelOuter.setAttribute('class', "panel panel-default");
-    redditPanelOuter.setAttribute('id', 'panel' + i);    
+    redditPanelOuter.setAttribute('class', "panel panel-default"); 
      
     var redditPanelHeading = document.createElement('div');
     redditPanelHeading.setAttribute('class', "panel-heading");
-    redditPanelHeading.setAttribute('id', "accordion");
+    
+    var redditPanelTitle = document.createElement('h4');
+    redditPanelTitle.setAttribute('class', "panel-title");
     
     var redditPanelContentOuter = document.createElement('div');
-    redditPanelContentOuter.setAttribute('class', "panel-collapse collaps in")
-    redditPanelContentOuter.setAttribute('id', "collapse' + i + '");
+    redditPanelContentOuter.setAttribute('class', "panel-collapse collapse")
+    redditPanelContentOuter.setAttribute('id', collapseID);
 
     var redditPanelContentInner = document.createElement('div');
     redditPanelContentInner.setAttribute('class', "panel-body");
     
-    var redditURL = document.createElement('a'); 
-    var redditTitle = document.createElement('p');   
+   
     // stores parent posting content 
-    var redditContent = document.createElement('div');
 
-    
-    
-     // titleToken[0] is the api person's lookup code.
-    // titleToken[1] is category
     // titleToke[2] will be thread title   
     var titleRaw = obj[i].data.title;
     var titleToken = titleRaw.split("] ");
     
     console.log(titleToken);
-    // https://jsfiddle.net/Wc4xt/1052/
     // titleToken[2]
-    redditTitle.innerHTML = '<a data-toggle="collapse" data-target="#collapse' + i + '" href=#collapse' + i + '>"' 
-      + titleToken[2] 
-      + '<span class="badge">' + obj[i].data.num_comments + ' comments</span>'  
-      + '</a>';
+    // redditTitle
+    redditPanelTitle.innerHTML = '<a data-toggle="collapse" data-parent="#accordion" href=' + collapseHeader + '>' + titleToken[2] + '</a>';
+      //+ '<span class="badge">' + obj[i].data.num_comments + ' comments</span>'  
+      //+ '</a>';
+
+    var commentCount = document.createElement('span');
+    commentCount.setAttribute('class', "badge pull-md-right");
+    commentCount.innerHTML = obj[i].data.num_comments + ' comments';
     
-    redditContent.innerHTML = obj[i].data.selftext;
+    redditPanelHeading.appendChild(redditPanelTitle);
+    redditPanelHeading.appendChild(commentCount);
+    redditPanelOuter.appendChild(redditPanelHeading);    
     
-    redditPanelContentInner.appendChild(redditContent);
+    
+    // Post + hyperlink
+    
+        
+    redditPanelContentInner.innerHTML = '<a href=' + obj[i].data.url + '>' + obj[i].data.selftext + '</a>';
+
     redditPanelContentOuter.appendChild(redditPanelContentInner);
-    redditPanelHeading.appendChild(redditTitle);
-    
-    redditPanelOuter.appendChild(redditPanelHeading);
     redditPanelOuter.appendChild(redditPanelContentOuter);
-    
-    //redditTitle.innerHTML = '<h2>' + titleToken[2] + '</h2>';
-    
-    /*
-    redditURL.innerHTML = '<a href="' 
-      + obj[i].data.url + '" class="list-group-item">' + obj[i].data.title 
-      + '<span class="badge">' + obj[i].data.num_comments + ' comments</span>' 
-      + '<p class="collapse">' + obj[i].selftext + '</p>'
-      + '<p><a class="btn" href="#"> collapse </a></p>'
-      + '</a>';
-    // redditTitle.textContent = obj[i].data.title;
-     uList.appendChild(redditTitle);
-    */
-    
-		//uList.appendChild(redditURL);
     accordionPanel.appendChild(redditPanelOuter);
 	}
   outputList.appendChild(accordionPanel);

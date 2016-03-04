@@ -21,8 +21,13 @@
     </div>
   </div>
 	<div id="mainparent" class="col-md-offset-1 col-md-10">
-        <div class="col-md-offset-4 col-md-4"><br><br>
-      <!-- <input type="text" id="searchBox" class="input-sm" value=""> -->
+    <div class="col-md-offset-3 col-md-6" id="politicianInfo">
+      
+    </div>
+    <div class="col-md-offset-4 col-md-4"><br>
+      <a href="addTest.php" class="btn btn-warning btn-md col-xs-12" id="submitIssue">Create New Issue [doesnt work]</a>
+    </div>
+    <div class="col-md-offset-4 col-md-4"><br>
         <div class='form-group'>
           <label for='category'>Issue category</label>
           <select class='form-control' id="category">
@@ -47,8 +52,8 @@
     </div>
     <h2><p id="helloText" class="col-md-offset-4 col-md-4"></p></h2>
     <div id="displayer" class="col-xs-12 col-md-offset-1 col-md-10">
-		<p>Reddit Search </p>
-	</div>
+      <p>Reddit Search </p>
+    </div>
 	</div>
 </div>
 <!-- END HTML -->
@@ -58,13 +63,16 @@
 <!-- SCRIPT SECTION -->
 <script> 
 
+var politician = sessionStorage.getItem('politician')
+document.getElementById("politicianInfo").innerHTML = politician;
+var searchID = getID();
+
 // modify the search field with the Rep's ID number.
-requestReddit("");
-//requestReddit("NYL000112");
-// var myButton = document.getElementById("clickButton");
+requestReddit(searchID);
 var myText = document.getElementById("helloText");
 var myOption = document.getElementById("category");
 myOption.addEventListener("change", refineResults, false);
+var addIssue = document.getElementById("submitIssue", makeNewIssue, false);
 
 
 function refineResults() {
@@ -80,7 +88,9 @@ function refineResults() {
 }
 
 function requestReddit(statement) {
-    
+  
+  console.log(statement);
+  
   var xmlhttp;
   if (window.XMLHttpRequest) {
     xmlhttp = new XMLHttpRequest();
@@ -92,7 +102,7 @@ function requestReddit(statement) {
     //connection is good and status is okay;
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       var response = xmlhttp.responseText;
-      localStorage.setItem('redditInfo', response)
+      sessionStorage.setItem('redditInfo', response)
       loadRedditList(false);
         } // readystate
   } // xml
@@ -110,7 +120,7 @@ function loadRedditList(refinedQuery) {
     outputList.removeChild(outputList.firstChild);
   }
   
-	var redditObj = JSON.parse(localStorage.getItem('redditInfo'))  
+	var redditObj = JSON.parse(sessionStorage.getItem('redditInfo'))  
   var obj = redditObj.data.children; 
   var resultCount = 0;
 
@@ -174,6 +184,14 @@ function loadRedditList(refinedQuery) {
   myText.textContent = resultCount + " Results Found!";
 }
 
+function getID() {
+  var politicalID = document.getElementById('politicianInfo');
+  
+  return politicalID.childNodes[1].id; 
+}
+
+function makeNewIssue() {
+}
 
 </script>
 </body>

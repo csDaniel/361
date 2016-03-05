@@ -37,7 +37,6 @@
         <div class="list-group" id="officialsTable">
         </div>
       </div>
-      <a href="discussionLookup.html" id="testID" class="btn btn-default" value="[NYL000112]">[NYL000112]</a>
     </div>
   </div>  
 </body>
@@ -49,9 +48,6 @@
   zipHTML.innerHTML = zipcode;
   var discussionLookup = "\"discussionLookup.html\"";
   
-  var testCode = document.getElementById("testID").innerHTML;
-  console.log(testCode);
-  sessionStorage.setItem('testCode', testCode);
   
 $(document).ready(function() {
 
@@ -88,10 +84,10 @@ $(document).ready(function() {
         listItem.addEventListener('click', function() {
           var newSearch = this;
           storeSend(newSearch);
-        });
+          sessionStorage.setItem('pdata', JSON.stringify(official));
 
-        $('#officialsTable').append(listItem);
-        
+        });
+        $('#officialsTable').append(listItem);        
       });
     });
   };
@@ -100,12 +96,9 @@ $(document).ready(function() {
   function storeSend(politicianInfo) {
     
     sessionStorage.setItem('politician', politicianInfo.innerHTML);
-    //console.log("Saved the session stuff");
-    //console.log(sessionStorage.getItem('politician'));
-    location.assign("discussionLookup.html");
-    
-    // discussionLookup.html
-    
+
+    location.assign("discussionLookup.php");
+
   }
   
 });

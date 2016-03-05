@@ -1,3 +1,5 @@
+<?php 
+?>
 <!DOCTYPE html>
 <html lang="en-us">
 
@@ -21,11 +23,26 @@
     </div>
   </div>
 	<div id="mainparent" class="col-md-offset-1 col-md-10">
-    <div class="col-md-offset-3 col-md-6" id="politicianInfo">
-      
+    <div id="politicianInfo" class="col-md-offset-2 col-md-8">
+      <span id="politicianThead" class='text-center'>
+      </span>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="col-md-3" id="politicianPic">
+            </td>
+            <td class="col-md-9">
+              <table class="table table-condensed">
+                <tbody id="politicianData">
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="col-md-offset-4 col-md-4"><br>
-      <a href="addTest.php" class="btn btn-warning btn-md col-xs-12" id="submitIssue">Create New Issue [doesnt work]</a>
+      <a href="addTest.php" class="btn btn-success btn-md col-xs-12" id="submitIssue">Create New Issue [doesnt work]</a>
     </div>
     <div class="col-md-offset-4 col-md-4"><br>
         <div class='form-group'>
@@ -50,9 +67,9 @@
         </div>
      <!-- <button id="clickButton" class="btn btn-warning">Search Issues</button> -->
     </div>
-    <h2><p id="helloText" class="col-md-offset-4 col-md-4"></p></h2>
+    <!-- <h2><p id="helloText" class="col-md-offset-4 col-md-4"></p></h2> -->
     <div id="displayer" class="col-xs-12 col-md-offset-1 col-md-10">
-      <p>Reddit Search </p>
+      <p></p>
     </div>
 	</div>
 </div>
@@ -63,16 +80,14 @@
 <!-- SCRIPT SECTION -->
 <script> 
 
-var politician = sessionStorage.getItem('politician')
-document.getElementById("politicianInfo").innerHTML = politician;
-var searchID = getID();
+var sessionStuff = JSON.parse(sessionStorage.getItem('pdata'));
+buildProfile(sessionStuff);
+requestReddit(sessionStuff.leg_id);
 
-// modify the search field with the Rep's ID number.
-requestReddit(searchID);
-var myText = document.getElementById("helloText");
+//var myText = document.getElementById("helloText");
 var myOption = document.getElementById("category");
 myOption.addEventListener("change", refineResults, false);
-var addIssue = document.getElementById("submitIssue", makeNewIssue, false);
+//var addIssue = document.getElementById("submitIssue", makeNewIssue, false);
 
 
 function refineResults() {
@@ -88,8 +103,6 @@ function refineResults() {
 }
 
 function requestReddit(statement) {
-  
-  console.log(statement);
   
   var xmlhttp;
   if (window.XMLHttpRequest) {
@@ -184,14 +197,52 @@ function loadRedditList(refinedQuery) {
   myText.textContent = resultCount + " Results Found!";
 }
 
-function getID() {
-  var politicalID = document.getElementById('politicianInfo');
+
+function buildProfile(politician) {
+  var pTitle = document.getElementById("politicianThead");
+  var pPic = document.getElementById("politicianPic");
+  var pTable = document.getElementById("politicianData");
   
-  return politicalID.childNodes[1].id; 
+  pTitle.innerHTML = "<h3>" + politician.full_name + "</h3>";
+  pPic.innerHTML = "<img src=\"" + politician.photo_url + "\"/>";
+  
+  // build that table!
+  
+  // ID
+  var pID = document.createElement('tr');
+  pID.innerHTML = "<td>Legislative ID: " + politician.leg_id + "</td>";
+  //var pID = "<tr> Legislative ID: " + politician.leg_id + "</tr>";
+  pTable.appendChild(pID);
+  // district
+  var pDistrict = document.createElement('tr');
+  pDistrict.innerHTML = "<td>Disctrict: " + politician.district + "</td>";
+  pTable.appendChild(pDistrict);  
+  // email
+  var pEmail = document.createElement('tr');
+  pEmail.innerHTML = "<td>Email: " + politician.email + "</td>";
+  pTable.appendChild(pEmail);  
+  // url
+  var pURL = document.createElement('tr');
+  pURL.innerHTML = "<td><a href=\"" + politician.url + "\">Official Website »</a></td>";
+  pTable.appendChild(pURL);
+  // roles?
+  // politician.roles[i].committee
+  
+  var pCom = document.createElement('tr');
+  pCom.innerHTML = "<td>Committee Membership: </br></td>";
+  pTable.appendChild(pCom);
+  for (i = 1; i < politician.roles.length; i++) {
+    var pRoles = document.createElement('tr');
+    pRoles.innerHTML = politician.roles[i].committee;
+    pTable.appendChild(pRoles);
+  }
+ 
+  profileTable.appendChild(profileTBody);
+  loc.appendChild(profileTable);  
 }
 
-function makeNewIssue() {
-}
+
+//function makeNewIssue() {}
 
 </script>
 </body>

@@ -14,15 +14,45 @@
 </head>
 
 <body>
+  <?php include '_nav.php'; ?>
   <div class='container'>
     <div class='col-xs-12'>
       <div class='page-header'>
-        <h1 class='text-center'>Create a new issue</h1>
+        <h1 id='pageTitle'></h1>
         <p>
         </p>
       </div>
     </div>
-    <div class='col-xs-12 col-md-6 col-md-offset-3'>
+    <div class='col-xs-12'>
+      <div id='official'></div>
+    </div>
+    <div class='col-xs-12 col-md-6'>
+      <h1>Issues</h1>
+      <form>
+        <div class='form-group'>
+          <label for='category'>Filter by issue category</label>
+          <select class='form-control' id='filter' name='filterCategory' required>
+            <option selected disabled>Select a category</option>
+            <option>Civil Rights</option>
+            <option>Finance</option>
+            <option>Defense & Foreign Policy</option>
+            <option>Economy</option>
+            <option>Education</option>
+            <option>Energy</option>
+            <option>Environment</option>
+            <option>Elections</option>
+            <option>Health</option>
+            <option>Immigration</option>
+            <option>Student Loans</option>
+            <option>Transportation</option>
+            <option>Unions & Labor</option>
+          </select>
+        </div>
+      </form>
+      <div id='issues'></div>
+    </div>
+    <div class='col-xs-12 col-md-6'>
+      <h1>Submit a new issue</h1>
       <form id='newIssue'>
         <div class='form-group'>
           <label for='title'>Issue title</label>
@@ -52,21 +82,6 @@
           <textarea class='form-control' name='description' placeholder='i.e. Describe the issue you are concerned about, including as much relevant detail as possible.' rows=10 required></textarea>
         </div>
         <div class='form-group'>
-          <label for='geocomplete'>Street address (find your reps)</label>
-          <input id='geocomplete' class='form-control' name='location' />
-          <div class='geodata'>
-            <input name="lat" id='lat' type="hidden" value="">
-            <input name="lng" id='lng' type="hidden" value="">
-          </div>
-        </div>
-        <div class='form-group' id='official-group'>
-          <label for='officials'>Address to an official/representative</label>
-          <table class='table table-bordered' id="officialsTable">
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-        <div class='form-group'>
           <button type='submit' id='submitIssue' class='btn btn-success btn-lg btn-block'>
             <span id='submitState'>Submit Issue</span>
           </button>
@@ -77,8 +92,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js" charset="utf-8"></script>
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-  <script src="js/jquery.geocomplete.min.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/politician.js"></script>
 </body>
 
 </html>

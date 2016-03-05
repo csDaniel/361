@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<!-- HTML5 Hello world by kirupa - http://www.kirupa.com/html5/getting_your_feet_wet_html5_pg1.htm -->
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<title>Hello...</title>
+<style type="text/css">
+#mainContent {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	background-color: #E3F0FB;
+	border-radius: 4px;
+	padding: 10px;
+	text-align: center;
+}
+.buttonStyle {
+	border-radius: 4px;
+	border: thin solid #F0E020;
+	padding: 5px;
+	background-color: #F8F094;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: bold;
+	color: #663300;
+	width: 75px;
+}
+
+.buttonStyle:hover {
+	border: thin solid #FFCC00;
+	background-color: #FCF9D6;
+	color: #996633;
+	cursor: pointer;
+}
+.buttonStyle:active {
+	border: thin solid #99CC00;
+	background-color: #F5FFD2;
+	color: #669900;
+	cursor: pointer;
+}
+
+</style>
+<script>
+	//add content when page loads
+	document.addEventListener('DOMContentLoaded', bindButtons);
+	// bind the button
+	var payloadPol = {sen1id:null, sen2id:null, repid: null, local1id:null, local2id:null, userid:null, InputType:null};
+	var userid;
+	
+	function bindButtons(){
+		//gather parameters into json object
+		document.getElementById("newAccountSubmit").addEventListener('click',function(event){
+			
+			// Lookup latitude and longitude
+          var req = new XMLHttpRequest();
+		  var apikey = "AIzaSyDxeG4cU0ykvsDpfnNj6XcNaXgzF0qRYbU";
+          var sunapikey= "9147666877474d029530f41e75c1b555";
+		  
+		  var address = document.getElementById('address').value;
+		  address = address.replace(/\s+/g, "+");
+		  var city = document.getElementById('city').value;
+		  city =  city.replace(/\s+/g, "+");
+		  var totalAddress =  address+ ',' + city + ','+ document.getElementById('state').value;
+          console.log(totalAddress);
+          
+		  //var url = 'https://maps.googleapis.com/maps/api/geocode/json?  +'&key=' + apikey;
+		  var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + totalAddress +'&key=' + apikey;
+		  console.log(url);
+		  req.open('GET', url, false);
+          req.send(null);
+			var response = JSON.parse(req.responseText);
+		  var lat = response.results[0].geometry.location.lat;
+		  var long = response.results[0].geometry.location.lng;
+		  alert("lat: " + lat + "Long:" +long);
+		  
+		   var newReq = new XMLHttpRequest();
+		  var sunlightUrl = 'http://openstates.org/api/v1/legislators/geo/?lat=' + lat + '&long=' + long + '&apikey=' + sunapikey;
+		  newReq.open('GET', sunlightUrl, true);
+		  newReq.addEventListener('load', function(){
+			//check for valid response
+			if(newReq.status >=200 && newReq.status<=401){
+				var sunResponse = JSON.parse(newReq.response);
+				console.log("Local Reps:");
+				console.log(sunResponse);
+				 
+				 payloadPol.local1id = sunResponse[0].id;
+				 payloadPol.local2id = sunResponse[1].id;
+				 
+				 //get federal candidates
+				var fedReq = new XMLHttpRequest();
+				var fedURL =  'http://congress.api.sunlightfoundation.com/legislators/locate?latitude=' + lat + '&longitude=' + long + '&apikey='+sunapikey;
+				fedReq.open('GET', fedURL, true); 
+				fedReq.addEventListener('load', function(){
+				//check for valid response
+					if(newReq.status >=200 && newReq.status<=401){
+						var fedResponse = JSON.parse(fedReq.response);
+						console.log("Federal Reps:");
+						console.log(fedResponse);
+						
+						payloadPol.InputType = "AddPolitician";
+						payloadPol.repid = fedResponse.results[0].govtrack_id;
+						payloadPol.sen1id = fedResponse.results[1].govtrack_id;
+						payloadPol.sen2id = fedResponse.results[2].govtrack_id;
+						console.log(payloadPol);
+							
+					}
+					else{
+						console.log("Something Went Wrong");
+					}
+				});
+				fedReq.send(null);
+			}
+			else{
+				console.log("Something Went Wrong");
+			}
+		  });
+		  
+		  newReq.send(null);
+		  
+		  
+			// Uploading user information
+			var req = new XMLHttpRequest();
+			var payload = {username:null, password:null, fname:null, lname:null, address:null, city:null, state:null, zipcode:null, latitude:null, longitude:null, InputType:null}
+			payload.username= document.getElementById("username").value;
+			payload.password= document.getElementById("password").value;
+			payload.firstname= document.getElementById("firstname").value;
+			payload.lastname= document.getElementById("lastname").value;
+			payload.address= document.getElementById("address").value;
+			payload.city= document.getElementById("city").value;
+			payload.state= document.getElementById("state").value;
+			payload.zipcode= document.getElementById("zipcode").value;
+			payload.latitude= lat;
+			payload.longitude = long;
+			payload.InputType= "CreateAccount";
+			
+		
+			//validation user has filled in fields
+			var fillStatus =0; 
+			
+			if(payload.username == ""){
+				alert("Please Fill out Username");
+				fillStatus=1;
+			}
+			
+			else if(payload.password == ""){
+				alert("Please Fill out Password");
+				fillStatus=1;
+			}
+			
+			else if(payload.firstname == ""){
+				alert("Please Fill out First Name");
+				fillStatus=1;
+			}
+			
+			
+			else if(payload.lastname == ""){
+				alert("Please Fill out Last Name");
+				fillStatus=1;
+			}
+			
+			else if(payload.address == ""){
+				alert("Please Fill out Street Address");
+				fillStatus=1;
+			}
+			
+			else if(payload.city == ""){
+				alert("Please Fill out City");
+				fillStatus=1;
+			}
+			
+			else if(payload.state == ""){
+				alert("Please Fill out State");
+				fillStatus=1;
+			}
+			
+			else if(payload.zipcode == ""){
+				alert("Please Fill out Zipcode");
+				fillStatus=1;
+			}
+			
+			
+			//send request if status is 0
+			if(fillStatus ==0){
+				
+				req.open('POST', 'ProcessRequest.php', false);
+				req.setRequestHeader('Content-Type', 'application/json');
+				req.send(JSON.stringify(payload));
+				var response = req.responseText; 
+
+				if(response >0 ){
+					userid = response;
+					payloadPol.userid = userid;
+					console.log(payloadPol);
+					
+					var polReq = new XMLHttpRequest();
+					polReq.open('POST', 'ProcessRequest.php', false);
+					polReq.setRequestHeader('Content-Type', 'application/json');
+					polReq.send(JSON.stringify(payloadPol));
+					response = polReq.responseText; 
+					console.log(response);
+				}
+				else{
+					alert(response);
+				
+				}
+				
+			}
+			else{
+				alert ("You Suck");
+			}
+			
+			
+		event.preventDefault();	
+		});
+	
+	
+		//send parameters to 
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+</script>
+
+
+</head>
+
+<body>
+<div id="mainContent">
+	
+	<h1>Create a New Account</h1>
+	
+	<p>Username <input type="text" id = "username"></p>
+	<p>Password <input type="password" id = "password"></p>
+	<p>First Name <input type="text" id = "firstname"></p>
+	<p>Last Name <input type="text" id = "lastname"></p>
+	<p>Street Address <input type="text" id = "address"></p>
+	<p>City <input type="text" id = "city"></p>
+	<p>State <input type="text" id = "state"></p>
+	<p>Zipcode <input type="number" id ="zipcode"></p>
+
+	<input type="submit" class="buttonStyle" id="newAccountSubmit"> 
+
+</div>
+
+
+</body>
+</html>

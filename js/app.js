@@ -13,55 +13,51 @@ $(document).ready(function() {
     $('#official-group').hide();
     var endpoint = API_ROOT + 'legislators/geo/?lat=' + lat + '&long=' + lng;
     $.get(endpoint, {
-      apikey: API_KEY
-    }, function(response) {
-      $('#official-group').show();
-      $('#officialsTable').find('tr').remove().end();
-      $.each(response, function(i, official) {
-        var checkbox = '<td><input type="radio" name="official" value="' + official.id + '"></td>';
-        var link = '<br/><a href="' + official.url + '" target="blank">Official Website »</a>';
-        var data = official.full_name + ' (' + official.party.charAt(0) + '-' + official.state.toUpperCase() + ')';
-        var name = '<td><span>' + data + link + '</span></td>';
-        var img = '<td><img src="' + official.photo_url + '"/></td>';
-        $('#officialsTable').append('<tr>' + checkbox + name + img + '</tr>')
-      });
-    });
-  }
+        apikey: API_KEY
+      }, function(response) {
 
-  $('#submitIssue').click(function(e) {
-    e.preventDefault();
-    var data = {
-      title: $("input[name=title]").val(),
-      category: $("select[name=category]").val(),
-      description: $("textarea[name=description]").val(),
-      official: $("input[name=official]").val()
-    }
-    if (data.title === null || data.category === null || data.description === null || data.official === null) {
-      swal("Error", "Please make sure all form fields are completed.", "error");
-      return;
-    }
-    $('#submitState').text('Submitting...');
-    $('#submitIssue').prop('disabled', true);
-    $.ajax({
-      url: 'submit.php',
-      type: 'POST',
-      data: { data: data },
-      success: function() {
-        $('#submitState').text('Submit Issue');
-        $('#submitIssue').prop('disabled', false);
-      },
-      statusCode: {
-        200: function() {
-          swal("Success", "Your issue was successfully created and posted for discussion.", "success");
-        },
-        400: function() {
-          swal("Error", "There was an error creating your issue.", "error");
-        },
-        500: function() {
-          swal("Error", "There was an error creating your issue.", "error");
-        }
-      }
-    })
-  })
+        // clean out any previous politicians we fetched
+        $('#official-group').show();
+        $('#officials').find('div').remove().end();
+
+        // iterate through politicians returned by API
+        $.each(response, function(i, official) {
+
+            // organize the data for this politician
+            var data = {
+              id: official.id,
+              name: official.full_name,
+              url: official.url,
+              party: official.party.charAt(0),
+              state: official.state.toUpperCase(),
+              photo_url: official.photo_url
+            };
+
+            // create a new DOM element for each official
+            var obj = $('\
+              <div class="media panel panel-default panel-official">\
+                <div class="media-left">\
+                  <img class="media-object" src="' + data.photo_url + '"/>\
+                </div>\
+                <div class="media-body">\
+                  <h4 class="media-heading">' + data.name + ' (' + data.party + '-' + data.state + ')</h4>\
+                  <p><a href="' + data.url + '" target="blank">Official Website</a></p>\
+                  <button class="btn btn-primary">View/Submit Issues</button>\
+                </div>\
+              </div>'
+            );
+            $('#officials').append(obj)
+
+            // make sure button sends official data to session storage
+            $(obj).find('button').first().click(function() {
+                sessionStorage.setItem('active', JSON.stringify({basic: data, raw: official}));
+                window.location.replace('politician.php');
+            })
+
+        });
+
+    });
+}
+
 
 });

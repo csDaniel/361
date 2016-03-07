@@ -62,8 +62,6 @@
 		  city =  city.replace(/\s+/g, "+");
 		  var totalAddress =  address+ ',' + city + ','+ document.getElementById('state').value;
           console.log(totalAddress);
-          
-		  //var url = 'https://maps.googleapis.com/maps/api/geocode/json?  +'&key=' + apikey;
 		  var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + totalAddress +'&key=' + apikey;
 		  console.log(url);
 		  req.open('GET', url, false);
@@ -103,9 +101,13 @@
 						payloadPol.sen2id = fedResponse.results[2].govtrack_id;
 						console.log(payloadPol);
 							
+						/*var postReq = new XMLHttpRequest;
+						postReq.open('POST', 'ProcessRequest.php', true);
+						postReq.addEventListener('load', function() {							
+						});*/
 					}
 					else{
-						console.log("Something Went Wrong");
+						console.log("Error With Sunlight API");
 					}
 				});
 				fedReq.send(null);
@@ -116,6 +118,11 @@
 		  });
 		  
 		  newReq.send(null);
+		  //get federal legisaltors
+		  
+		  
+		  
+		  
 		  
 		  
 			// Uploading user information
@@ -181,12 +188,13 @@
 			
 			//send request if status is 0
 			if(fillStatus ==0){
-				
+				console.log("Sending account create request");
 				req.open('POST', 'ProcessRequest.php', false);
 				req.setRequestHeader('Content-Type', 'application/json');
 				req.send(JSON.stringify(payload));
 				var response = req.responseText; 
-
+				
+				//Send a second request to add in DB Values then move to login screen
 				if(response >0 ){
 					userid = response;
 					payloadPol.userid = userid;
@@ -198,6 +206,11 @@
 					polReq.send(JSON.stringify(payloadPol));
 					response = polReq.responseText; 
 					console.log(response);
+					alert("Account Creation A Success!");
+					//send paypol payload now to Process Request
+					
+					
+					window.location = "http://web.engr.oregonstate.edu/~hallbry/trustfinal/BuildingTrust/Login.html"
 				}
 				else{
 					alert(response);

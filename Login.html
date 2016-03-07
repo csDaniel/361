@@ -91,14 +91,33 @@
 					newReq.setRequestHeader('Content-Type', 'application/json');
 					newReq.send(JSON.stringify(payloadLogin));
 					var newResponse = newReq.responseText;
-					if (newResponse == 0) {
+					console.log("UserID is: " + newResponse);
+					
+					if (id == 0) {
 						alert("Your ids weren't found!");
 					}
+					//response was found 
 					else {
-						alert(newResponse);
+						window.location = "http://web.engr.oregonstate.edu/~behmerl/homepage.html";	
+						//alert(newResponse);
 						console.log(newResponse);
+						
 					}
 					
+					/*
+					var payloadForm = {sen1id:null, sen2id:null, repid: null, local1id:null, local2id:null, userid:null, InputType:null};
+					
+					// **************************************************
+					// NEED TO DO: INSERT ACTUAL HOMEPAGE HERE
+					// **************************************************
+					var homepage = "hompage.html";
+					
+					// Send that in a post request form to the homepage 
+					
+					var form = document.createElement("form");
+					form.setAttribute("method", "post");
+					form.setAttribute("actiion", homepage);
+					*/
 				}	
 			}
 			else{

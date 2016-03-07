@@ -7,7 +7,7 @@
 
 	
 	//login into database
-	$mysqli = new mysqli("sql3.freemysqlhosting.net","sql3108622","BuYY6266Er","sql3108622",3306 );
+	$mysqli = new mysqli("oniddb.cws.oregonstate.edu","hallbry-db","HnY9rGK4KVocyQJk","hallbry-db");
 		//Turn on error reporting
 	if(!$mysqli || $mysqli->connect_errno){
 		echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
@@ -30,6 +30,7 @@
 		} 
 		//send back a 1 for success
 		else{
+			
 			if(!($stmt = $mysqli->prepare("SELECT id FROM `Individual` WHERE username = ? && password = ?"))){
 			echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;	
 			}
@@ -134,14 +135,14 @@
 		echo "adding politician";
 		
 		// Insert 
-		if(!($stmt = $mysqli->prepare("INSERT INTO `Indiv_Poli` (id, pid) VALUES (?, ?);"))){
+		if(!($stmt = $mysqli->prepare("INSERT INTO `Indiv_Poli` (id, pid, localPol) VALUES (?, ?, ?);"))){
 			echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;	
 		}
 		
 		// execute local1id
 		$id = $_POST['userid'];
-		$pid = $_POST['local1id'];
-		if(!($stmt->bind_param("is", $id, $pid))){
+		$localPol = 1;
+		if(!($stmt->bind_param("isi", $id, $pid, $localPol ))){
 			echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 		}	
 		if(!$stmt->execute()){
@@ -150,7 +151,7 @@
 		
 		//execute local2id
 		$pid = $_POST['local2id'];
-		if(!($stmt->bind_param("is", $id, $pid))){
+		if(!($stmt->bind_param("isi", $id, $pid, $localPol ))){
 			echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 		}	
 		if(!$stmt->execute()){
@@ -158,8 +159,9 @@
 		} 
 		
 		// execute repid
+		$localPol = 0;
 		$pid = $_POST['repid'];
-		if(!($stmt->bind_param("is", $id, $pid))){
+		if(!($stmt->bind_param("isi", $id, $pid, $localPol ))){
 			echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 		}	
 		if(!$stmt->execute()){
@@ -168,7 +170,7 @@
 		
 		// execute sen1id
 		$pid = $_POST['sen1id'];
-		if(!($stmt->bind_param("is", $id, $pid))){
+		if(!($stmt->bind_param("isi", $id, $pid, $localPol ))){
 			echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 		}	
 		if(!$stmt->execute()){
@@ -177,7 +179,7 @@
 		
 		// execute sen2id
 		$pid = $_POST['sen2id'];
-		if(!($stmt->bind_param("is", $id, $pid))){
+		if(!($stmt->bind_param("isi", $id, $pid, $localPol ))){
 			echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 		}	
 		if(!$stmt->execute()){
@@ -185,9 +187,11 @@
 		} 
 				
 		$stmt->close();
+		
 	}
 	
 	else if($result === "FindPolitician"){
+		
 		if(!($stmt = $mysqli->prepare("SELECT pid FROM `Indiv_Poli` WHERE id = ?"))){
 		echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;	
 		}
@@ -205,8 +209,8 @@
 		
 		// If there are any politicians, there, print them all
 		if($stmt->num_rows === 1){
-				$stmt->bind_result($pid);
 				while($stmt->fetch()){
+					$stmt->bind_result($pid);
 					echo $pid;
 				}
 				

@@ -56,6 +56,20 @@
     </div>
   </div>
 
+<div class='container'>
+    <div class='col-xs-12'>
+      <div class='page-header'>
+        <h1>Register</h1>
+        <p>
+        </p>
+      </div>
+    </div>
+    <div class='col-xs-12 col-md-6'>
+      <div class='form-group'>
+        <p> Don't have an account: <a href="CreateAccount.php">Create Account</a></p>
+      </div>
+    </div>
+  </div>
 
 
 </body>

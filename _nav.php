@@ -18,8 +18,8 @@
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Login</a></li>
-        <li><a href="#">Register</a></li>
+        <li><a href="http://web.engr.oregonstate.edu/~jinksw/361/Login.php">Login</a></li>
+        <li><a href="http://web.engr.oregonstate.edu/~jinksw/361/CreateAccount.php">Register</a></li>
 
       </ul>
     </div><!-- /.navbar-collapse -->

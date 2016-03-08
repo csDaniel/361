@@ -21,22 +21,20 @@
   <div class='container'>
     <div class='col-xs-12'>
       <div class='page-header'>
-        <h1>Get Started: Find Your Reps</h1>
+        <h1>Get Started: Contact Your Reps</h1>
         <p>
         </p>
       </div>
     </div>
     <div class='col-xs-12 col-md-6'>
-      <div class='form-group'>
-        <label for='geocomplete'>Enter your street address:</label>
-        <input id='geocomplete' class='form-control' name='location' />
-        <div class='geodata'>
-          <input name="lat" id='lat' type="hidden" value="">
-          <input name="lng" id='lng' type="hidden" value="">
+      <div class='form-group' id='fed-official-group'>
+        <div class="list-group" id="fed-officials">
         </div>
       </div>
-      <div class='form-group' id='official-group'>
-        <div class="list-group" id="officials">
+    </div>
+    <div class='col-xs-12 col-md-6'>
+      <div class='form-group' id='state-official-group'>
+        <div class="list-group" id="state-officials">
         </div>
       </div>
     </div>

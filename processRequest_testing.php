@@ -11,7 +11,7 @@
 	class LoginTest extends PHPUnit_Framework_TestCase
 	{	
 		/**
-		* @dataProvider loginProvider
+		* @dataProvider makeAccountTest
 		*/
 		public function testLogin($input)
 		{
@@ -27,10 +27,44 @@
 			$data = json_decode($response->getBody(), true);
 			
 			// In theory, this should return the id of the user
-			$this->assertTrue($data > 0);	
+      
+			$this->assertTrue($data > 0) ;
 		}
 		
-
+    // will run a series of tests in creating accounts to test for outliers 
+    public function makeAccountTest() {
+      $name = 'Daniel';
+      $address = '600 Lincoln Ave';
+      $city = 'Charleston';
+      $state = 'IL';
+      $lat = '39.4844';
+      $lon = '88.1753';
+      $zipcode = '61920';
+      
+      for ($x = 0; $x <= 100; $x++) {
+        echo $x;
+        $nameTesting = $name + (string)$x;
+        return array( 
+          'registering new user' => array(
+            [
+              'InputType'=>'CreateAccount',
+              'username'=> $nameTesting,
+              'password'=> $nameTesting,
+              'firstname'=> $nameTesting,
+              'lastname'=> $nameTesting,
+              'address'=> $address,
+              'city'=> $city,
+              'zipcode'=> $zipcode,
+              'state'=> $state,
+              'latitude'=> $lat,
+              'longitude'=> $lon           
+            ]
+          
+          )
+        );   
+      }
+    }
+      
 		// It'll plug in these values to the other function
 		// as long as you call this one its "dataProvider" above that function 
 		public function loginProvider()
@@ -49,8 +83,7 @@
 						'InputType'=>'Login',
 						'username'=> 'Jane',
 						'password'=>'jane'
-					]
-			
+					]			
 				)
 /*				'should not work' => array(
 					[

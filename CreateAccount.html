@@ -66,7 +66,7 @@
 		  console.log(url);
 		  req.open('GET', url, false);
           req.send(null);
-			var response = JSON.parse(req.responseText);
+		  var response = JSON.parse(req.responseText);
 		  var lat = response.results[0].geometry.location.lat;
 		  var long = response.results[0].geometry.location.lng;
 		  alert("lat: " + lat + "Long:" +long);
@@ -99,7 +99,109 @@
 						payloadPol.repid = fedResponse.results[0].govtrack_id;
 						payloadPol.sen1id = fedResponse.results[1].govtrack_id;
 						payloadPol.sen2id = fedResponse.results[2].govtrack_id;
-						console.log(payloadPol);
+						console.log(payloadPol);							  
+					  
+					  
+						// Uploading user information
+						var req = new XMLHttpRequest();
+						var payload = {username:null, password:null, fname:null, lname:null, address:null, city:null, state:null, zipcode:null, latitude:null, longitude:null, InputType:null}
+						payload.username= document.getElementById("username").value;
+						payload.password= document.getElementById("password").value;
+						payload.firstname= document.getElementById("firstname").value;
+						payload.lastname= document.getElementById("lastname").value;
+						payload.address= document.getElementById("address").value;
+						payload.city= document.getElementById("city").value;
+						payload.state= document.getElementById("state").value;
+						payload.zipcode= document.getElementById("zipcode").value;
+						payload.latitude= lat;
+						payload.longitude = long;
+						payload.InputType= "CreateAccount";
+						
+					
+						//validation user has filled in fields
+						var fillStatus =0; 
+						
+						if(payload.username == ""){
+							alert("Please Fill out Username");
+							fillStatus=1;
+						}
+						
+						else if(payload.password == ""){
+							alert("Please Fill out Password");
+							fillStatus=1;
+						}
+						
+						else if(payload.firstname == ""){
+							alert("Please Fill out First Name");
+							fillStatus=1;
+						}
+						
+						
+						else if(payload.lastname == ""){
+							alert("Please Fill out Last Name");
+							fillStatus=1;
+						}
+						
+						else if(payload.address == ""){
+							alert("Please Fill out Street Address");
+							fillStatus=1;
+						}
+						
+						else if(payload.city == ""){
+							alert("Please Fill out City");
+							fillStatus=1;
+						}
+						
+						else if(payload.state == ""){
+							alert("Please Fill out State");
+							fillStatus=1;
+						}
+						
+						else if(payload.zipcode == ""){
+							alert("Please Fill out Zipcode");
+							fillStatus=1;
+						}
+						
+						
+						//send request if status is 0
+						if(fillStatus ==0){
+							console.log("Sending account create request");
+							req.open('POST', 'ProcessRequest.php', false);
+							req.setRequestHeader('Content-Type', 'application/json');
+							req.send(JSON.stringify(payload));
+							var response = req.responseText; 
+							
+							//Send a second request to add in DB Values then move to login screen
+							if(response >0 ){
+								userid = response;
+								payloadPol.userid = userid;
+								console.log(payloadPol);
+								
+								var polReq = new XMLHttpRequest();
+								polReq.open('POST', 'ProcessRequest.php', false);
+								polReq.setRequestHeader('Content-Type', 'application/json');
+								polReq.send(JSON.stringify(payloadPol));
+								response = polReq.responseText; 
+								console.log(response);
+								alert("Account Creation A Success!");
+								//send paypol payload now to Process Request
+								
+								
+								window.location = "Login.html"
+							}
+							else{
+								alert(response);
+							
+							}
+							
+						}
+						else{
+							alert ("You Suck");
+						}
+						
+						
+					event.preventDefault();		
+							
 							
 						/*var postReq = new XMLHttpRequest;
 						postReq.open('POST', 'ProcessRequest.php', true);
@@ -122,108 +224,7 @@
 		  
 		  
 		  
-		  
-		  
-		  
-			// Uploading user information
-			var req = new XMLHttpRequest();
-			var payload = {username:null, password:null, fname:null, lname:null, address:null, city:null, state:null, zipcode:null, latitude:null, longitude:null, InputType:null}
-			payload.username= document.getElementById("username").value;
-			payload.password= document.getElementById("password").value;
-			payload.firstname= document.getElementById("firstname").value;
-			payload.lastname= document.getElementById("lastname").value;
-			payload.address= document.getElementById("address").value;
-			payload.city= document.getElementById("city").value;
-			payload.state= document.getElementById("state").value;
-			payload.zipcode= document.getElementById("zipcode").value;
-			payload.latitude= lat;
-			payload.longitude = long;
-			payload.InputType= "CreateAccount";
-			
-		
-			//validation user has filled in fields
-			var fillStatus =0; 
-			
-			if(payload.username == ""){
-				alert("Please Fill out Username");
-				fillStatus=1;
-			}
-			
-			else if(payload.password == ""){
-				alert("Please Fill out Password");
-				fillStatus=1;
-			}
-			
-			else if(payload.firstname == ""){
-				alert("Please Fill out First Name");
-				fillStatus=1;
-			}
-			
-			
-			else if(payload.lastname == ""){
-				alert("Please Fill out Last Name");
-				fillStatus=1;
-			}
-			
-			else if(payload.address == ""){
-				alert("Please Fill out Street Address");
-				fillStatus=1;
-			}
-			
-			else if(payload.city == ""){
-				alert("Please Fill out City");
-				fillStatus=1;
-			}
-			
-			else if(payload.state == ""){
-				alert("Please Fill out State");
-				fillStatus=1;
-			}
-			
-			else if(payload.zipcode == ""){
-				alert("Please Fill out Zipcode");
-				fillStatus=1;
-			}
-			
-			
-			//send request if status is 0
-			if(fillStatus ==0){
-				console.log("Sending account create request");
-				req.open('POST', 'ProcessRequest.php', false);
-				req.setRequestHeader('Content-Type', 'application/json');
-				req.send(JSON.stringify(payload));
-				var response = req.responseText; 
-				
-				//Send a second request to add in DB Values then move to login screen
-				if(response >0 ){
-					userid = response;
-					payloadPol.userid = userid;
-					console.log(payloadPol);
-					
-					var polReq = new XMLHttpRequest();
-					polReq.open('POST', 'ProcessRequest.php', false);
-					polReq.setRequestHeader('Content-Type', 'application/json');
-					polReq.send(JSON.stringify(payloadPol));
-					response = polReq.responseText; 
-					console.log(response);
-					alert("Account Creation A Success!");
-					//send paypol payload now to Process Request
-					
-					
-					window.location = "Login.html"
-				}
-				else{
-					alert(response);
-				
-				}
-				
-			}
-			else{
-				alert ("You Suck");
-			}
-			
-			
-		event.preventDefault();	
+
 		});
 	
 	

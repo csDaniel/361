@@ -13,13 +13,13 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="home.php">Home</a></li>
         <li><a href="#"></a></li>
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="http://web.engr.oregonstate.edu/~jinksw/361/Login.php">Login</a></li>
-        <li><a href="http://web.engr.oregonstate.edu/~jinksw/361/CreateAccount.php">Register</a></li>
+        <li><a href="Login.php">Login</a></li>
+        <li><a href="CreateAccount.php">Register</a></li>
 
       </ul>
     </div><!-- /.navbar-collapse -->

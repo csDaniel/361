@@ -5,65 +5,65 @@ $(document).ready(function() {
   var API_KEY = '11815f3d1a374d038ab4b7d544b6cc09';
   var lat;
   var lng;
+ 
+	// Get user id from get request 
+	var getid = "";
+	var place  = window.location.href;
+	i = place.length-1;
+	while (place[i] != '='){
+		var temp = getid;
+		getid  = place[i] + temp;
+		i = i-1;
+	}
+	console.log(getid ); 
 
   getLatLng();
 
+
   function getLatLng(){
-    //Get latitude and longitude from DB
-      $.ajax({
-        url: 'getReqDB.php',
-        type: "GET",
-        data: { InputType: 'getLatLng', id: id},
-        dataType: "json",
-        success: function( json ) {
-            console.log(json);
-            lat = json.latitude;
-            lng = json.longitude;
-            getFeds();
-            getState();
-        },
-        error: function( xhr, status, errorThrown ) {
-          alert( "Sorry, there was a problem!" );
-              console.log( "Error: " + errorThrown );
-              console.log( "Status: " + status );
-              console.dir( xhr );
-        }
-        // Code to run regardless of success or failure
-          //complete: function( xhr, status ) {
-          //alert( "The request is complete!" );
-        //}
-    });
-  }
+	var req = new XMLHttpRequest();
+	var url = 'getReqDB.php?InputType=getLatLng&id=' + getid;
+	req.open('GET', url, false);
+	req.send(null);
+	var response = JSON.parse(req.response);
+	lat = response.latitude;
+	console.log(lat);
+	lng = response.longitude;
+	console.log(lng);
+	getFeds();
+	getState();
+}
 
 function getFeds() {
     $('#fed-official-group').hide();
-    var endpoint = API_FED_ROOT + 'legislators/locate?latitude=' + lat + '&long=' + lng;
-    $.get(endpoint, {
-        apikey: API_KEY
+    var endpoint = API_FED_ROOT + 'legislators/locate?latitude=' + lat + '&longitude=' + lng;
+    $.get(endpoint, { 
+	apikey: API_KEY
       }, function(response) {
 
+	console.log(response);
         // clean out any previous politicians we fetched
         $('#fed-official-group').show();
         $('#fed-officials').find('div').remove().end();
 
         // iterate through politicians returned by API
-        $.each(response, function(i, official) {
-
+        $.each(response.results, function(i, official) {
             // organize the data for this politician
             var data = {
               id: official.bioguide_id,
               name: official.first_name + " " + official.last_name,
               url: official.website,
-              party: official.party.charAt(0),
-              state: official.state.toUpperCase()
-              //photo_url: official.photo_url   //No pics for feds from Congress API
+              party: official.party,
+              state: official.state,
+              photo_url: 'https://theunitedstates.io/images/congress/original/' + official.bioguide_id + '.jpg' 
             };
+		console.log(data);
 
             // create a new DOM element for each official
             var obj = $( '' +
               '<div class="media panel panel-default panel-official">' +
                 '<div class="media-left">' +
-                  '<img class="media-object" src="' +/*+ data.photo_url + */'"/>' +
+                  '<img class="media-object" src="https://theunitedstates.io/images/congress/original/' + data.id + '.jpg"/>' +
                 '</div>' +
                 '<div class="media-body">' +
                   '<h4 class="media-heading">' + data.name + ' (' + data.party + '-' + data.state + ')</h4>' +
@@ -87,7 +87,7 @@ function getFeds() {
 
   function getState(){
     $('#state-official-group').hide();
-    var endpoint = API_ROOT + 'legislators/geo/?lat=' + lat + '&long=' + lng;
+    var endpoint = API_STATE_ROOT + 'legislators/geo/?lat=' + lat + '&long=' + lng;
     $.get(endpoint, {
         apikey: API_KEY
       }, function(response) {

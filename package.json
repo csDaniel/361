@@ -1,0 +1,29 @@
+{
+  "name": "361",
+  "version": "1.0.0",
+  "description": "Building Trust in Our Leaders",
+  "main": "home.php",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshgeller/361.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshgeller/361/issues"
+  },
+  "homepage": "https://github.com/joshgeller/361#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "jquery": "^2.2.1",
+    "jsdom": "^8.1.0",
+    "mocha": "^2.4.5",
+    "mocha-jsdom": "^1.1.0"
+  }
+}

@@ -6,6 +6,7 @@ var SL_API_KEY = '11815f3d1a374d038ab4b7d544b6cc09';
 
 describe('Sunlight API Tests', function() {
   it('Valid Geolookup call returns HTTP 200 response', function(done) {
+    this.timeout(5000);
     var lat = '40.748817'
     var lng = '-73.985428'
     var endpoint = SL_API_ROOT + 'legislators/geo/?lat=' + lat + '&long=' + lng;
@@ -19,6 +20,7 @@ describe('Sunlight API Tests', function() {
   it('Invalid Geolookup call returns HTTP 403 response', function(done) {
     var lat = '40.748817'
     var lng = '-73.985428'
+    this.timeout(5000);
     var endpoint = SL_API_ROOT + 'legislators/geo/?lat=' + lat + '&long=' + lng;
     $.get(endpoint)
       .fail(function(response) {
@@ -29,6 +31,7 @@ describe('Sunlight API Tests', function() {
   it('Geolookup call returns results in expected format', function(done) {
     var lat = '40.748817'
     var lng = '-73.985428'
+    this.timeout(5000);
     var endpoint = SL_API_ROOT + 'legislators/geo/?lat=' + lat + '&long=' + lng;
     $.get(endpoint, {
         apikey: SL_API_KEY
@@ -41,6 +44,7 @@ describe('Sunlight API Tests', function() {
 });
 
 describe('Reddit API Tests', function() {
+  this.timeout(5000);
   it('Valid search API call returns HTTP 200 response', function(done) {
     var endpoint = REDDIT_API_ROOT;
     $.get(endpoint).done(function(response, status, xhr) {
@@ -147,6 +151,7 @@ describe('New Issue Submission Tests', function() {
   });
 
   it('Valid submission is posted to Reddit', function(done) {
+    this.timeout(5000);
     var endpoint = REDDIT_API_ROOT;
     var data = {
       title: 'Automated Unit Test',

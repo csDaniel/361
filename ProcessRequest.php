@@ -18,10 +18,10 @@
 	// ******************************************
 	if ($result === "CreateAccount"){
 		
-		if(!($stmt = $mysqli->prepare("INSERT INTO Individual (username, password, fname, lname, address, city, zipcode, state, latitude, longitude) VALUES (?, ?, ?,?,?,?,?,?, ?, ?);"))){
+		if(!($stmt = $mysqli->prepare("INSERT INTO Individual (username, email, password, fname, lname, address, city, zipcode, state, latitude, longitude) VALUES (?,?,?,?,?,?,?,?,?,?,?);"))){
 			echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;	
 		}
-		if(!($stmt->bind_param("ssssssisss", $_POST['username'], $_POST['password'], $_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['city'], $_POST['zipcode'], $_POST['state'], $_POST['latitude'], $_POST['longitude']))){
+		if(!($stmt->bind_param("sssssssssss", $_POST['username'], $_POST['email'], $_POST['password'], $_POST['fname'], $_POST['lname'], $_POST['address'], $_POST['city'], $_POST['zipcode'], $_POST['state'], $_POST['latitude'], $_POST['longitude']))){
 			echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 		}
 		//failed to execute
@@ -119,9 +119,6 @@
 		else{
 			echo "0";
 		}
-		
-			 
-		
 		
 		$stmt->close();	
 		

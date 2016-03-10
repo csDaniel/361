@@ -121,7 +121,7 @@ $(document).ready(function() {
 			});
 			request.done(function( response, textStatus, jqXHR ) {
 							console.log("Submitted to DB");
-							window.location.href = "http://web.engr.oregonstate.edu/~jinksw/361/home.php";
+							window.location.href = "Login.php";
 			});
 			request.error(function( jqxhr, textstatus, errorThrown ) {
 	    			console.log( "Error: " + errorThrown );

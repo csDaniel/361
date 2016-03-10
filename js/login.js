@@ -39,21 +39,12 @@ function bindButtons(){
 			}
 			else{
 				console.log(response);
-				alert("Your login was a success");
 				var getid = response;
+				sessionStorage.setItem('id', getid);
 				console.log(getid);
 				console.log(window.location.href);
+				window.location = './home.php';
 
-
-			/*	// Not so fancy get request
-				var place = window.location.href;
-				place +="?id=";
-				place +=getid;
-				window.location = place;*/
-				
-				// Fancy calls
-				var data = {InputType:'getLatLng', id: getid};
-				redirectGet(data);
 			}
 		}
 		else{

@@ -1,3 +1,4 @@
+<script src="js/logout.js"></script>
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -7,20 +8,21 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Building Trust in Our Leaders</a>
+      <a class="navbar-brand" href="home.php">Building Trust in Our Leaders</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="home.php">Home</a></li>
-        <li><a href="#"></a></li>
+        <li></li>
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="Login.php">Login</a></li>
         <li><a href="CreateAccount.php">Register</a></li>
-
+		<li><a href="home.php" onclick="logout()">Logout</a></li>
+		
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

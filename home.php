@@ -18,11 +18,27 @@
 </head>
 <body>
   <?php include '_nav.php'; ?>
+
+	
   <div class='container'>
     <div class='col-xs-12'>
-      <div class='page-header'>
-        <h1>Get Started: Contact Your Reps</h1>
-        <p>
+      <div class='page-header' id='header'>
+
+	<div class="container" id= "addressForm" style="display:none">
+		 <h1>What is Building Trust in Our Leaders?</h1>
+		<p> Do you feel like your political representatives are really listening to you? If not, that's probably because they can't hear you! With this website, you can raise issues to your representatives or discuss them with your fellow citizens. If you're just curious about who your representatives are or about the issues being raised, enter your location below.</p>
+		<p></p>
+		<p></p>
+		<p></p>
+		<form>
+	  <fieldset>
+		<legend>Enter your Address: </legend>
+		<input type="text" value="Street Address" onfocus="if(this.value==&#39;Street Address&#39;) this.value=&#39;&#39;;" name="streetN" id="streetN" style="font-style: normal;">
+		<input type="text" value="5 Digit Zip Code" onfocus="if(this.value==&#39;5 Digit Zip Code&#39;) this.value=&#39;&#39;;" name="zipCode" id="zipCode" style="font-style: normal;">
+		<p><a class="btn btn-primary btn-lg" id="addressSubmit" role="button">Go »</a></p>
+	  </fieldset>
+	</form>
+	</div>
         </p>
       </div>
     </div>

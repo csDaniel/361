@@ -19,7 +19,7 @@
 				'base_uri' => 'http://web.engr.oregonstate.edu/~hueymi/361/']);	
 		
 			// Sending the post request
-			$response = $this->client->post('ProcessRequest.php', [
+			$response = $this->client->post('processRequest.php', [
 				'json' => $input]);
 
 

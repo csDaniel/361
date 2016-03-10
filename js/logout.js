@@ -1,4 +1,4 @@
 function logout() {
 	sessionStorage.clear();
-	window.location = "./home.php";	
+	window.location = "./index.php";	
 }

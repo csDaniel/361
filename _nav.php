@@ -14,15 +14,14 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="home.php">Home</a></li>
+        <li class="active"><a href="home.php">My Reps</a></li>
         <li></li>
-
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="Login.php">Login</a></li>
-        <li><a href="CreateAccount.php">Register</a></li>
-		<li><a href="home.php" onclick="logout()">Logout</a></li>
-		
+        <li><a href="login.php">Login</a></li>
+        <li><a href="createAccount.php">Register</a></li>
+		<li><a href="#" onclick="logout()">Logout</a></li>
+
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

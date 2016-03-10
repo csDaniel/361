@@ -14,6 +14,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
 <script src="js/jquery.geocomplete.min.js"></script>
+<script src='js/redirect.js'></script>
 <script src="js/createAccount.js"></script>
 
 
@@ -31,7 +32,7 @@
       </div>
     </div>
     <div class='col-xs-12 col-md-6'>
-    	<form class="form" id="createForm" method="POST" action="ProcessRequest.php">
+    	<form class="form" id="createForm" method="POST" action="processRequest.php">
 	    	<div class="form-group" id="errors"></div>
 	      <div class='form-group'>
 	        <label for='username'>User Name:</label>
@@ -46,7 +47,7 @@
 	        <input type='password' id='password' class='form-control' name='password' placeholder='Password'/>
 	      </div>
 	      <div class='form-group'>
-	        <label for='password_repeat'>Password:</label>
+	        <label for='password_repeat'>Confirm Password:</label>
 	        <input type='password' id='password_repeat' class='form-control' name='password_repeat' placeholder='Password'/>
 	      </div>
 	      <div class='form-group'>
@@ -66,7 +67,7 @@
 	        <input type='text' id='zipCode' class='form-control' name='zipCode' placeholder='Zip Code'/>
 	       </div>
 	       <div class='form-group'>
-	        <button type='submit' class="btn btn-primary">Submit</button>
+	        <button type='submit' class="btn btn-primary">Create My Account</button>
 	      </div>
 	    </div>
   	</form>

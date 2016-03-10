@@ -30,7 +30,7 @@ function bindButtons(){
 		//send request if status is 0
 		if(fillStatus ==0){
 			
-			req.open('POST', 'ProcessRequest.php', false);
+			req.open('POST', 'processRequest.php', false);
 			req.setRequestHeader('Content-Type', 'application/json');
 			req.send(JSON.stringify(payload));
 			var response = req.responseText; 

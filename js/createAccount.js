@@ -151,7 +151,6 @@
 	          type: "GET",
 	          dataType: "json",
 	          success: function(json) {
-	            //console.log(json);
 	            city = json.city;
 	            state = json.state;
 	          },
@@ -172,7 +171,6 @@
 	          type: "GET",
 	          dataType: "json",
 	          success: function(json) {
-	            //console.log(json);
 	            lat = json.results[0].geometry.lat;
 	            lng = json.results[0].geometry.lng;
 	          },

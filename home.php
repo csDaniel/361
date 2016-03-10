@@ -25,8 +25,9 @@
       <div class='page-header' id='header'>
 
 	<div class="container" id= "addressForm" style="display:none">
-		<h1>What is Building Trust in Our Leaders?</h1>
-		<p> Do you feel like your political representatives are really listening to you? If not, that's probably because they can't hear you! With this website, you can raise issues to your representatives or discuss them with your fellow citizens. If you're just curious about who your representatives are or about the issues being raised, enter your location below.</p>
+		<h1>Who are my political representatives?</h1>
+		<p> To find your state and federal legislative representatives, just enter your address and click the "Go" button. </p>
+		<p> If you just want us to use your current location, just press "Go" without entering your address, and then press "allow geocoding" in any pop-up from your browser. </p>
     <div class="row">
     <div class="col-xs-12 col-md-6">
 		<form>

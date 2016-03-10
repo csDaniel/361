@@ -9,10 +9,7 @@ $(document).ready(function() {
 
 // Get data from sessions
  var getid = sessionStorage.getItem('id');
-if (getid)
-	 console.log(getid ); 
-else getid = '-1';
-console.log(getid);
+if (!getid) getid = '-1';
 
 // If user information, make API call immediately. Otherwise, display a form. 
  if (getid != '-1')
@@ -26,7 +23,6 @@ console.log(getid);
 // Function to look up latitude and longitude information
 document.getElementById('addressSubmit').addEventListener('click', function(event){
 		
-		console.log("hello there!");
 		x = document.getElementById("addressForm");
 		x.style.visibility = "hidden";
 		
@@ -38,7 +34,6 @@ document.getElementById('addressSubmit').addEventListener('click', function(even
 		var city;
 		var state;
 		var zip = document.getElementById('zipCode').value;
-		console.log("zip = " + zip);
 		var streetN = document.getElementById('streetN').value;
 		if (streetN == "Street Address" ||  zip == "5 Digit Zip Code" || streetN == "" || zip == "") {
 				if (navigator.geolocation) {
@@ -84,9 +79,7 @@ document.getElementById('addressSubmit').addEventListener('click', function(even
 					if( nreq.status >= 200 && nreq.status < 400 ) {
 						lresponse = JSON.parse(nreq.responseText);
 						lat = lresponse.results[0].geometry.lat;
-						console.log(lat);
 						lng = lresponse.results[0].geometry.lng;
-						console.log(lng);
 					} else {
 						console.log("Error in network request: ", request.statusText);
 					}
@@ -108,9 +101,7 @@ document.getElementById('addressSubmit').addEventListener('click', function(even
 	req.send(null);
 	var response = JSON.parse(req.response);
 	lat = response.latitude;
-	console.log(lat);
 	lng = response.longitude;
-	console.log(lng);
 	getFeds();
 	getState();
 }
@@ -131,7 +122,6 @@ function getFeds() {
 	newheader.appendChild(newtext);
 	header.appendChild(newheader);
 	
-	console.log(response);
         // clean out any previous politicians we fetched
         $('#fed-official-group').show();
         $('#fed-officials').find('div').remove().end();
@@ -147,7 +137,6 @@ function getFeds() {
               state: official.state,
               photo_url: 'https://theunitedstates.io/images/congress/original/' + official.bioguide_id + '.jpg' 
             };
-		console.log(data);
 
             // create a new DOM element for each official
             var obj = $( '' +

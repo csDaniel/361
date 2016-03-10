@@ -54,7 +54,7 @@ function bindButtons(){
 	});
 }
 
-
+/*
 function redirectGet(params) {
 	var form = document.createElement("form");
 	form.setAttribute("method", "get");
@@ -71,12 +71,6 @@ function redirectGet(params) {
 	document.body.appendChild(form);
 	form.submit();	
 }
-/*
-function goToHomePage() {
-	window.location = './home.php';
-}
-*/	
-	
-	
+*/
 	
 	

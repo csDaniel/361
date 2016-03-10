@@ -1,20 +1,24 @@
 $(document).ready(function() {
   function buildPolitician() {
     $('#official').find('div').remove().end();
-    // load session data
+    
+	// load session data
     var active = JSON.parse(sessionStorage.getItem('active'));
     var data = active.basic;
     var raw = active.raw;
-    // set page title to pol's name
+    
+	// set page title to pol's name
     $('#pageTitle').text(data.name + ' (' + data.party + '-' + data.state + ')');
-    // create DOM elements for commitee roles
+    
+	// create DOM elements for commitee roles
     var roles = [];
     $.each(raw.roles, function(i, e) {
       if (e.committee) {
         roles.push($('<p>' + e.committee + '</p>'));
       }
     })
-    // create DOM element for pol info
+    
+	// create DOM element for pol info
     var obj = $('\
       <div class="media panel panel-default panel-official">\
         <div class="media-left">\
@@ -68,7 +72,7 @@ $(document).ready(function() {
       });
       if (issues.length === 0) {
         if (search === '') {
-          issues.push($('<div class="alert alert-danger">No issues found for this politician. Submit the first one now!</div>'));
+          //issues.push($('<div class="alert alert-danger">No issues found for this politician. Submit the first one now!</div>'));
         } else {
           issues.push($('<div class="alert alert-danger">No issues found for this politician in the <b>' + search + '</b> category.</div>'));
         }

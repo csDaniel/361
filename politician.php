@@ -1,17 +1,14 @@
-<?php
-  ini_set('display_errors', 'On');
-  error_reporting(E_ALL | E_STRICT);
-?>
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title>Create a new issue</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="css/master.css" media="screen" title="no title" charset="utf-8">
-</head>
+  </head>
 
 <body>
   <?php include '_nav.php'; ?>

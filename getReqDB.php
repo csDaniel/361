@@ -50,7 +50,7 @@
 				echo json_encode($json_array);
 			}
 		}
-	 	else echo "butthead";
+	 	else echo "could not get latitude and longitude";
 		$stmt->close();
 				
 	}		
